@@ -410,7 +410,7 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             m_SharedRTManager.InitSharedBuffers(m_GbufferManager, m_Asset.currentPlatformRenderPipelineSettings, m_Asset.renderPipelineResources);
 
             m_CameraColorBuffer = RTHandles.Alloc(Vector2.one, filterMode: FilterMode.Point, colorFormat: GetColorBufferFormat(), enableRandomWrite: true, useMipMap: false, xrInstancing: true, useDynamicScale: true, name: "CameraColor");
-            m_CameraSssDiffuseLightingBuffer = RTHandles.Alloc(Vector2.one, filterMode: FilterMode.Point, colorFormat: GetColorBufferFormat(), enableRandomWrite: true, xrInstancing: true, useDynamicScale: true, name: "CameraSSSDiffuseLighting");
+            m_CameraSssDiffuseLightingBuffer = RTHandles.Alloc(Vector2.one, filterMode: FilterMode.Point, colorFormat: GraphicsFormat.B10G11R11_UFloatPack32, enableRandomWrite: true, xrInstancing: true, useDynamicScale: true, name: "CameraSSSDiffuseLighting");
 
             m_DistortionBuffer = RTHandles.Alloc(Vector2.one, filterMode: FilterMode.Point, colorFormat: Builtin.GetDistortionBufferFormat(), xrInstancing: true, useDynamicScale: true, name: "Distortion");
 
@@ -724,13 +724,13 @@ namespace UnityEngine.Experimental.Rendering.HDPipeline
             // Dispose m_ProbeCameraPool properly
             void DisposeProbeCameraPool()
             {
+#if UNITY_EDITOR
                 // Special case here: when the HDRP asset is modified in the Editor,
                 //   it is disposed during an `OnValidate` call.
                 //   But during `OnValidate` call, game object must not be destroyed.
                 //   So, only when this method was called during an `OnValidate` call, the destruction of the
                 //   pool is delayed, otherwise, it is destroyed as usual with `CoreUtiles.Destroy`
                 var isInOnValidate = false;
-#if UNITY_EDITOR
                 isInOnValidate = new StackTrace().ToString().Contains("OnValidate");
                 if (isInOnValidate)
                 {
