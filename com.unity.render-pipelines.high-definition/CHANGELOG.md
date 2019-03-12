@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [6.6.0-preview] - 2019-XX-XX
+### Added
+- Added preliminary changes for XR deferred shading
+
+### Fixed
+- Fixed instance identifier semantic string used by Shader Graph
+- Fixed deferred shading with stereo instancing
+
+### Fixed
+- Fixed null culling result occuring when changing scene that was causing crashes
 
 ## [6.5.0-preview] - 2019-03-07
 
@@ -12,9 +21,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added depth-of-field support with stereo instancing
 - Adding real time area light shadow support
 - Added a new FrameSettings: Specular Lighting to toggle the specular during the rendering
-
-### Added
-- Added preliminary changes for XR deferred shading
 
 ### Fixed
 - Fixed diffusion profile upgrade breaking package when upgrading to a new version
@@ -32,10 +38,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Restored shadows in the Cascade Shadow debug visualization
 - `camera.RenderToCubemap` use proper face culling
 - Fixed HDRI sky intensity lux mode
-- Fixed deferred shading with stereo instancing
+- Fixed dynamic resolution for XR
+- Fixed normal map blending in TerrainLit by only blending the derivatives
 
 ### Changed
 - When rendering reflection probe disable all specular lighting and for metals use fresnelF0 as diffuse color for bake lighting.
+- TerrainLit shaders and includes are reorganized and made simpler.
+- TerrainLit shader GUI now allows custom properties to be displayed in the Terrain fold-out section.
 
 ## [6.4.0-preview] - 2019-02-21
 
@@ -56,6 +65,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - Update UI for 32bit/16bit shadow precision settings in HDRP asset
 - Object motion vectors have been disabled in all but the game view. Camera motion vectors are still enabled everywhere, allowing TAA and Motion Blur to work on static objects.
+- Enable texture array by default for most rendering code on DX11 and unlock stereo instancing (DX11 only for now)
 
 ## [6.3.0-preview] - 2019-02-18
 
